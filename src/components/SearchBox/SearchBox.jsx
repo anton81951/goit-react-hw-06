@@ -1,8 +1,16 @@
-import { Formik, Form, Field } from "formik";
-import clsx from "clsx";
-import styles from "./SearchBox.module.css";
+import { useDispatch, useSelector } from 'react-redux';
+import { setFilter } from '../../redux/filtersSlice';
+import { Formik, Form, Field } from 'formik';
+import styles from './SearchBox.module.css';
 
-const SearchBox = ({ value, onChange }) => {
+const SearchBox = () => {
+  const dispatch = useDispatch();
+  const value = useSelector(state => state.filters.name);
+
+  const handleChange = event => {
+    dispatch(setFilter(event.target.value));
+  };
+
   return (
     <Formik initialValues={{ search: value }} onSubmit={() => {}}>
       <Form className={styles.searchBox}>
@@ -14,7 +22,7 @@ const SearchBox = ({ value, onChange }) => {
           id="search"
           placeholder="Enter name"
           value={value}
-          onChange={onChange}
+          onChange={handleChange}
         />
       </Form>
     </Formik>

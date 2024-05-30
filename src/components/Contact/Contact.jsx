@@ -1,22 +1,37 @@
-import clsx from "clsx";
-import styles from "./Contact.module.css";
-import { HiUser, HiPhone } from "react-icons/hi";
+import { useDispatch } from 'react-redux';
+import clsx from 'clsx';
+import styles from './Contact.module.css';
+import { HiUser, HiPhone } from 'react-icons/hi';
+import { deleteContact } from '../../redux/contactsSlice';
 
-const Contact = ({ contact: { name, number, id }, onDelete }) => {
+const Contact = ({ contact }) => {
+  const dispatch = useDispatch();
+
+  const handleDelete = () => {
+    dispatch(deleteContact(contact.id));
+  };
+
   return (
     <div className={clsx(styles.contactContainer)}>
       <address>
         <div className={clsx(styles.nameBox)}>
           <HiUser />
-          <span className={clsx(styles.nameSize)}>{name}</span>
+          <span className={clsx(styles.nameSize)}>{contact.name}</span>
         </div>
         <div className={clsx(styles.nameBox)}>
           <HiPhone />
-          <span className={clsx(styles.nameSize)}>{number}</span>
+          <span className={clsx(styles.nameSize)}>{contact.number}</span>
         </div>
       </address>
       <form>
-        <button type="button" className={clsx(styles.buttonFrame)} onClick={()=>onDelete(id)}>Delete</button>
+        <button
+          type="button"
+          className={clsx(styles.buttonFrame)}
+          onClick={handleDelete}
+          aria-label={`Delete ${contact.name}`}
+        >
+          Delete
+        </button>
       </form>
     </div>
   );
